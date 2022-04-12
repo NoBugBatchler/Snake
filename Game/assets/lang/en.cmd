@@ -25,3 +25,4 @@ set "translation.menuLanguage.switching=Switching to %colorYellow%^!userLanguage
 set "translation.menuLanguage.reloading=Reloading, updating languages..."
 set "translation.menuLanguage.cancelling=Cancelling, going back to the menu..."
 set "translation.menuLanguage.reapplying=Reapplying %colorYellow%^!userLanguage^!%colorReset%..."
+set "translation.menuLanguage.notFound=Language not found. %colorRed%^!languageInput^!%colorReset% is not a valid language!"

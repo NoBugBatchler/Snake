@@ -21,6 +21,9 @@ if "%~1"=="exitAfter" ( exit /b )
 
 :display
 cls
+call saveconfig.cmd
+
+for /l %%A in (1,1,8) do ( echo !snakeHeader%%A! )
 for /l %%A in (1,1,!menuOptionsFound!) do ( 
             if %%A==!menuSelection! (
             echo !colorGreen!!menuOption%%ABoxLine!!colorReset!
@@ -71,8 +74,7 @@ exit /b
 
 :action1
 cls
-echo %translation.feature.soon%
-timeout /nobreak /t 2 >nul
+call board.cmd
 exit /b 0
 
 :action2
@@ -152,6 +154,13 @@ if !languageAvailable!==false if !languageInput!==REAPPLY (
       call !userLanguage!.cmd
 )
 popd
+
+if !languageAvailable!==false (
+      echo %translation.menuLanguage.notFound%
+      timeout /nobreak /t 2 >nul
+      cls
+      goto getLanguages
+)
 
 exit /b 0
 

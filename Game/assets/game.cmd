@@ -1,7 +1,7 @@
 @echo off
 setlocal enableextensions
 setlocal enableDelayedExpansion
-set "gameVersion=1"
+set "gameVersion=2"
 set "gameDirectory=%~dp0"
 set "setCodes=true"
 call inject.dll getinput.dat
