@@ -113,51 +113,51 @@ echo %translation.menuLanguage.promptLanguage%
 echo.
 set /p "languageInput=> "
 popd
-set "languageAvailable=false"
+set "languageAvailable=0"
 
 ::Check if the user input is a valid language
-if !languageAvailable!==false for /l %%A in (1,1,!language[#]!) do if !languageInput!==!language[%%A]! (
-      set languageAvailable=true
+if !languageAvailable!==0 for /l %%A in (1,1,!language[#]!) do if !languageInput!==!language[%%A]! (
+      set languageAvailable=1
       set userLanguage=%languageInput%
 )
 
 ::Switch to the user language
-if !languageAvailable!==true (
+if !languageAvailable!==1 (
       echo %translation.menuLanguage.switching%
-      timeout /nobreak /t 2 >nul
+      ..\sleep 2 s
       call !userLanguage!.cmd
       call :getOptions exitAfter
 )
 
 ::Check for reload
-if !languageAvailable!==false if !languageInput!==RELOAD (
+if !languageAvailable!==0 if !languageInput!==RELOAD (
       echo %translation.menuLanguage.reloading%
-      timeout /nobreak /t 2 >nul
-      set "languageAvailable=true"
+      ..\sleep 2 s
+      set "languageAvailable=1"
       popd
       cls
       goto getLanguages
 )
 
 ::Check for cancel
-if !languageAvailable!==false if !languageInput!==CANCEL (
+if !languageAvailable!==0 if !languageInput!==CANCEL (
       echo %translation.menuLanguage.cancelling%
-      timeout /nobreak /t 2 >nul
-      set "languageAvailable=true"
+      ..\sleep 2 s
+      set "languageAvailable=1"
 )
 
 ::Check for reapply
-if !languageAvailable!==false if !languageInput!==REAPPLY (
+if !languageAvailable!==0 if !languageInput!==REAPPLY (
       echo %translation.menuLanguage.reapplying%
-      timeout /nobreak /t 2 >nul
-      set "languageAvailable=true"
+      ..\sleep 2 s
+      set "languageAvailable=1"
       call !userLanguage!.cmd
 )
 popd
 
-if !languageAvailable!==false (
+if !languageAvailable!==0 (
       echo %translation.menuLanguage.notFound%
-      timeout /nobreak /t 2 >nul
+      ..\sleep 2 s
       cls
       goto getLanguages
 )

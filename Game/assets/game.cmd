@@ -1,15 +1,17 @@
 @echo off
 setlocal enableextensions
 setlocal enableDelayedExpansion
-set "gameVersion=2"
+set /a "gameVersion=3"
 set "gameDirectory=%~dp0"
-set "setCodes=true"
-call inject.dll getinput.dat
+set /a "setCodes=1"
+call inject.dll getinput.dll
+
+if exist ..\DEBUG ( set /a "debug=1" ) else ( set /a "debug=0" )
 
 ::Set game codes
-if "!setCodes!" equ "true" (
+if "!setCodes!" equ "1" (
       ::Colors
-      if "!setCodes!" equ "true" (
+      if "!setCodes!" equ "1" (
             ::Foreground colors
             set "colorBlack=[30m"
             set "colorRed=[31m"
@@ -75,19 +77,19 @@ if "!setCodes!" equ "true" (
       )
 
       ::Game blocks
-      if "!setCodes!" equ "true" (
+      if "!setCodes!" equ "1" (
             set "gameBlock=.."
 
             set "gameGrassLight=!fullColorStrongGreen!!gameBlock!!colorReset!"
             set "gameGrassDark=!fullColorGreen!!gameBlock!!colorReset!"
-            set "gameSnakeHead=!fullColorAqua!!gameBlock!!colorReset!"
+            set "gameSnakeHead=!fullColorCyan!!gameBlock!!colorReset!"
             set "gameSnakeBody=!fullColorYellow!!gameBlock!!colorReset!"
             set "gameApple=!fullColorStrongRed!!gameBlock!!colorReset!"
+            set "gameNull=!fullColorStrongBlack!!gameBlock!!colorReset!"
       )
 
-
       ::Heading/banner for Snake
-      if "!setCodes!" equ "true" (
+      if "!setCodes!" equ "1" (
             set "snakeHeaderShort1= _____                _         "
             set "snakeHeaderShort2=/  ___|              | |        "
             set "snakeHeaderShort3=\ `--.  _ __    __ _ | | __ ___ "
@@ -103,6 +105,44 @@ if "!setCodes!" equ "true" (
             set "snakeHeader6=\____/ |_| |_| \__,_||_|\_\\___|   |_.__/  \__, |   |___/  \_| \_/\_| |_/"
             set "snakeHeader7=                                            __/ |                        "
             set "snakeHeader8=                                           |___/                         "
+
+            set "gameOverHeader1=  _____                            ____                    "
+            set "gameOverHeader2= / ____|                          / __ \                   "
+            set "gameOverHeader3=| |  __   __ _  _ __ ___    ___  | |  | |__   __ ___  _ __ "
+            set "gameOverHeader4=| | |_ | / _` || '_ ` _ \  / _ \ | |  | |\ \ / // _ \| '__|"
+            set "gameOverHeader5=| |__| || (_| || | | | | ||  __/ | |__| | \ V /|  __/| |   "
+            set "gameOverHeader6= \_____| \__,_||_| |_| |_| \___|  \____/   \_/  \___||_|   "
+      )
+
+      ::Arrows
+      if "!setCodes!" equ "1" (
+            set "arrowUp1=      .      "
+            set "arrowUp2=    .:;:.    "
+            set "arrowUp3=  .:;;;;;:.  "
+            set "arrowUp4=    ;;;;;    "
+            set "arrowUp5=    ;;;;;    "
+            set "arrowUp6=    ;;;;;    "
+            
+            set "arrowDown1=    ;;;;;    "
+            set "arrowDown2=    ;;;;;    "
+            set "arrowDown3=    ;;;;;    "
+            set "arrowDown4=  ..;;;;;..  "
+            set "arrowDown5=   ':::::'   "
+            set "arrowDown6=     ':`     "
+
+            set "arrowLeft1=     .       "
+            set "arrowLeft2=   .;;...... "
+            set "arrowLeft3= .;;;;:::::: "
+            set "arrowLeft4=  ':;;:::::: "
+            set "arrowLeft5=    ':       "
+            set "arrowLeft6=             "
+
+            set "arrowRight1=       .     "
+            set "arrowRight2= ......;;.   "
+            set "arrowRight3= ::::::;;;;. "
+            set "arrowRight4= ::::::;;:'  "
+            set "arrowRight5=       :'    "
+            set "arrowRight6=             "
       )
 
 )
@@ -127,7 +167,7 @@ title %translation.main.title%
 
 ::Fullscreen recommendation
 for /l %%A in (1,1,3) do ( echo !translation.main.fullscreen%%A! )
-timeout /nobreak /t 2 >nul
+sleep 2 s
 for /l %%A in (1,1,3) do ( echo. )
 
 
@@ -138,7 +178,7 @@ if not defined playerName (
       cls
       if defined playerName (
             echo %translation.game.greeting2%
-            timeout /nobreak /t 2 >nul
+            sleep 2 s
       )
 )
 if not defined playerName goto promptUserName
