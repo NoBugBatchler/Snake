@@ -2,10 +2,10 @@
 :buildGame
 ::Set base stats
 set /a "fieldSize=25" & ::Don't put even numbers here else go fuck yourself
-set /a "score=0"
+set /a "score=5"
 set /a "speed=100"
 set /a "dead=0"
-for /l %%A in (1,1,!fieldSizeFull!) do set "snakeHeadPositionOld%%A="
+for /l %%A in (1,1,!fieldSizeFull!) do set "snakeHeadPositionOld[%%A]="
 
 ::Check if the fieldSize is even, if so add 1
 set /a "fieldSizeEven=!fieldSize! %% 2"
@@ -18,6 +18,7 @@ set /a "fieldCenter=!fieldSizeFull! / 2"
 set "direction=up"
 if exist board.txt del board.txt
 if exist pattern.txt del pattern.txt
+if exist history.txt del history.txt
 
 set /a "snakeHeadPosition=!fieldCenter!"
 
@@ -30,8 +31,9 @@ for /l %%. in (1,1,!fieldSize!) do set "pattern=!pattern!AB"
 :: A - Grass light
 :: B - Grass dark
 :: C - Snake head
-:: D - Snake body
-:: E - Apple
+:: D - Snake body light
+:: E - Snake body dark
+:: F - Apple
 
 goto setDirection
 
@@ -56,7 +58,20 @@ set "board="
 for /l %%A in (0,1,!fieldSize!) do ( set "board=!board!!pattern:~%%A,%fieldSize%!" )
 
 ::Save old snake position
-set /a "snakeHeadPositionOld=!snakeHeadPosition!"
+if !score! neq 1 ( set /a "savePositionHistory=!score!" ) else ( set /a "savePositionHistory=1" )
+set /a "snakeHeadPositionOld[0]=!snakeHeadPosition!"
+
+
+if exist history.txt del history.txt
+for /l %%A in (!savePositionHistory!,-1,1) do (
+      set /a "savePositionHistoryLast=%%A-1"
+      for %%B in (!savePositionHistoryLast!) do (
+            set /a "snakeHeadPositionOld[%%A]=!snakeHeadPositionOld[%%B]"
+            echo history[%%B] ^> history[%%A] >> history.txt
+      )
+)
+
+
 set /a "snakeHeadPositionLineOld=!snakeHeadPositionLine!"
 
 ::Move the snake
@@ -76,6 +91,10 @@ if !snakeHeadPositionLineOld! equ 0 if !snakeHeadPositionLine! equ !fieldSizeLas
 if !dead! equ 1 goto gameOver
 
 call :setBoardPos !snakeHeadPosition! C
+for /l %%A in (1,1,!score!) do (
+      set /a "snakeBodySwitch=%%A %% 2"
+      if !snakeBodySwitch! equ 0 ( call :setBoardPos !snakeHeadPositionOld[%%A]! D ) else ( call :setBoardPos !snakeHeadPositionOld[%%A]! E )
+)
 
 if !debug! equ 1 (
       for %%A in ( 1 2 3 4 5 6 7 21 27 41 42 43 44 45 46 47 ) do ( call :setBoardPos %%A Z )
@@ -101,11 +120,17 @@ echo [%time:~0,-3%] !board!>>board.txt
 for /l %%A in (1,!fieldSize!,!fieldSizeFull!) do (
       set "displayLine=!board:~%%A,%fieldSize%!"
       
+      if !direction! equ up ( set "displayLine=!displayLine:C=%gameSnakeHeadUp%!" )
+      if !direction! equ down ( set "displayLine=!displayLine:C=%gameSnakeHeadDown%!" )
+      if !direction! equ left ( set "displayLine=!displayLine:C=%gameSnakeHeadLeft%!" )
+      if !direction! equ right ( set "displayLine=!displayLine:C=%gameSnakeHeadRight%!" )
+
+
       set "displayLine=!displayLine:A=%gameGrassLight%!"
       set "displayLine=!displayLine:B=%gameGrassDark%!"
-      set "displayLine=!displayLine:C=%gameSnakeHead%!"
-      set "displayLine=!displayLine:D=%gameSnakeBody%!"
-      set "displayLine=!displayLine:E=%gameApple%!"
+      set "displayLine=!displayLine:D=%gameSnakeBodyLight%!"
+      set "displayLine=!displayLine:E=%gameSnakeBodyDark%!"
+      set "displayLine=!displayLine:F=%gameApple%!"
       set "displayLine=!displayLine:Z=%gameNull%!"
 
       echo ^| !displayLine! ^|

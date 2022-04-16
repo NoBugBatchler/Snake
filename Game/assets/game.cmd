@@ -1,7 +1,7 @@
 @echo off
 setlocal enableextensions
 setlocal enableDelayedExpansion
-set /a "gameVersion=3"
+set /a "gameVersion=4"
 set "gameDirectory=%~dp0"
 set /a "setCodes=1"
 call inject.dll getinput.dll
@@ -80,10 +80,15 @@ if "!setCodes!" equ "1" (
       if "!setCodes!" equ "1" (
             set "gameBlock=.."
 
+            set "gameSnakeHeadUp=!bgColorBlue!!colorStrongBlack!^^^^!colorReset!"
+            set "gameSnakeHeadDown=!bgColorBlue!!colorStrongBlack!vv!colorReset!"
+            set "gameSnakeHeadLeft=!bgColorBlue!!colorStrongBlack!: !colorReset!"
+            set "gameSnakeHeadRight=!bgColorBlue!!colorStrongBlack! :!colorReset!"
+
             set "gameGrassLight=!fullColorStrongGreen!!gameBlock!!colorReset!"
             set "gameGrassDark=!fullColorGreen!!gameBlock!!colorReset!"
-            set "gameSnakeHead=!fullColorCyan!!gameBlock!!colorReset!"
-            set "gameSnakeBody=!fullColorYellow!!gameBlock!!colorReset!"
+            set "gameSnakeBodyLight=!fullColorStrongYellow!!gameBlock!!colorReset!"
+            set "gameSnakeBodyDark=!fullColorYellow!!gameBlock!!colorReset!"
             set "gameApple=!fullColorStrongRed!!gameBlock!!colorReset!"
             set "gameNull=!fullColorStrongBlack!!gameBlock!!colorReset!"
       )

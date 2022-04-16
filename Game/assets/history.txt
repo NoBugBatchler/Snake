@@ -1,0 +1,5 @@
+history[4] > history[5] 
+history[3] > history[4] 
+history[2] > history[3] 
+history[1] > history[2] 
+history[0] > history[1] 
