@@ -1,14 +1,19 @@
 ::Set default values
 :buildGame
-set /a "fieldSize=15" & ::Don't put even numbers here else go fuck yourself
+::Set base stats
+set /a "fieldSize=25" & ::Don't put even numbers here else go fuck yourself
 set /a "score=0"
 set /a "speed=100"
 set /a "dead=0"
+for /l %%A in (1,1,!fieldSizeFull!) do set "snakeHeadPositionOld%%A="
 
+::Check if the fieldSize is even, if so add 1
 set /a "fieldSizeEven=!fieldSize! %% 2"
 if !fieldSizeEven! equ 0 ( set /a "fieldSize+=1" )
 
+::Get fieldSize values
 set /a "fieldSizeFull=!fieldSize!*!fieldSize!"
+set /a "fieldSizeLast=!fieldSize!-1"
 set /a "fieldCenter=!fieldSizeFull! / 2"
 set "direction=up"
 if exist board.txt del board.txt
@@ -46,19 +51,28 @@ if !direction! equ left for /l %%A in (1,1,6) do ( set "snakeHudDirection%%A=%co
 if !direction! equ right for /l %%A in (1,1,6) do ( set "snakeHudDirection%%A=%colorStrongYellow%!arrowRight%%A!%colorReset%" )
 
 :move
+::Rebuild the board
 set "board="
-for /l %%A in (1,1,!fieldSize!) do ( set "board=!board!!pattern:~%%A,%fieldSize%!" )
+for /l %%A in (0,1,!fieldSize!) do ( set "board=!board!!pattern:~%%A,%fieldSize%!" )
+
+::Save old snake position
 set /a "snakeHeadPositionOld=!snakeHeadPosition!"
+set /a "snakeHeadPositionLineOld=!snakeHeadPositionLine!"
+
+::Move the snake
 if !direction! equ up set /a "snakeHeadPosition=!snakeHeadPosition!-!fieldSize!"
 if !direction! equ down set /a "snakeHeadPosition=!snakeHeadPosition!+!fieldSize!"
 if !direction! equ left set /a "snakeHeadPosition=!snakeHeadPosition!-1"
 if !direction! equ right set /a "snakeHeadPosition=!snakeHeadPosition!+1"
+set /a "snakeHeadPositionLine=(!snakeHeadPosition! - 1) %% !fieldSize!"
 
-set /a "snakeHeadPositionLine=(!snakeHeadPosition! - 1) / !fieldSize!"
+::Check if the snake is over the board
+if !snakeHeadPosition! lss 1 set /a "dead=1" & ::If snake head is over the board
+if !snakeHeadPosition! gtr !fieldSizeFull! set /a "dead=1" & ::If snake head is under the board
+if !snakeHeadPositionLineOld! equ !fieldSizeLast! if !snakeHeadPositionLine! equ 0 set /a "dead=1" & ::If snake head head has gone over the board (right)
+if !snakeHeadPositionLineOld! equ 0 if !snakeHeadPositionLine! equ !fieldSizeLast! set /a "dead=1" & ::If snake head head has gone over the board (left)
 
-if !snakeHeadPosition! lss 1 set /a "dead=1"
-if !snakeHeadPosition! gtr !fieldSizeFull! set /a "dead=1"
-
+::Check if snake died
 if !dead! equ 1 goto gameOver
 
 call :setBoardPos !snakeHeadPosition! C
@@ -79,7 +93,7 @@ echo !snakeHeaderShort2!    !snakeHudDirection2!    Speed: %colorYellow%!speed!%
 echo !snakeHeaderShort3!    !snakeHudDirection3!    Field size: %colorYellow%!fieldSize!%colorReset%
 echo !snakeHeaderShort4!    !snakeHudDirection4!    Field size full: %colorYellow%!fieldSizeFull!%colorReset%
 echo !snakeHeaderShort5!    !snakeHudDirection5!    Position: %colorYellow%!snakeHeadPosition!%colorReset%
-echo !snakeHeaderShort6!    !snakeHudDirection6!    Dead: %colorYellow%!dead!%colorReset% / Line: %colorYellow%!snakeHeadPositionLine!%colorReset%
+echo !snakeHeaderShort6!    !snakeHudDirection6!    Dead: %colorYellow%!dead!%colorReset% / Pos in Line: %colorYellow%!snakeHeadPositionLine!%colorReset%
 
 for /l %%A in (1,1,2) do ( echo. )
 

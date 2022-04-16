@@ -1,6 +1,6 @@
-::Latest change: 16.04.2022 13:45:58
+::Latest change: 16.04.2022 15:24:55
 
 set "userLanguage=en"
 set "playerName=DNA"
-set "joins=251"
+set "joins=258"
 set "highscore=0"
