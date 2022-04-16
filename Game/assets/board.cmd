@@ -1,11 +1,13 @@
 ::Set default values
 :buildGame
 ::Set base stats
-set /a "fieldSize=25" & ::Don't put even numbers here else go fuck yourself
-set /a "score=5"
-set /a "speed=100"
-set /a "dead=0"
+set /a "fieldSize=10" & ::Don't put even numbers here else go fuck yourself
+set /a "appleAmount=2" & ::The amount of apples on the field
+set /a "score=0" & ::Default score
+set /a "speed=100" & ::Default speed
+set /a "dead=0" & ::Putting this to 1 will be funny
 for /l %%A in (1,1,!fieldSizeFull!) do set "snakeHeadPositionOld[%%A]="
+for /l %%A in (1,1,!appleAmount!) do set "apple[%%A]Position=-1"
 
 ::Check if the fieldSize is even, if so add 1
 set /a "fieldSizeEven=!fieldSize! %% 2"
@@ -58,16 +60,14 @@ set "board="
 for /l %%A in (0,1,!fieldSize!) do ( set "board=!board!!pattern:~%%A,%fieldSize%!" )
 
 ::Save old snake position
-if !score! neq 1 ( set /a "savePositionHistory=!score!" ) else ( set /a "savePositionHistory=1" )
+set /a "savePositionHistory=!score!"
 set /a "snakeHeadPositionOld[0]=!snakeHeadPosition!"
 
-
-if exist history.txt del history.txt
+::Snake position history
 for /l %%A in (!savePositionHistory!,-1,1) do (
       set /a "savePositionHistoryLast=%%A-1"
       for %%B in (!savePositionHistoryLast!) do (
             set /a "snakeHeadPositionOld[%%A]=!snakeHeadPositionOld[%%B]"
-            echo history[%%B] ^> history[%%A] >> history.txt
       )
 )
 
@@ -87,32 +87,58 @@ if !snakeHeadPosition! gtr !fieldSizeFull! set /a "dead=1" & ::If snake head is 
 if !snakeHeadPositionLineOld! equ !fieldSizeLast! if !snakeHeadPositionLine! equ 0 set /a "dead=1" & ::If snake head head has gone over the board (right)
 if !snakeHeadPositionLineOld! equ 0 if !snakeHeadPositionLine! equ !fieldSizeLast! set /a "dead=1" & ::If snake head head has gone over the board (left)
 
-::Check if snake died
-if !dead! equ 1 goto gameOver
+::Check if snake head is in snake body
+for /l %%A in (1,1,!savePositionHistory!) do (
+      if !snakeHeadPosition! equ !snakeHeadPositionOld[%%A]! (
+            set /a "dead=1"
+      ) & ::If snake head colided with it's own body
+)
 
+::Check if snake head is on apple
+for /l %%A in (1,1,!appleAmount!) do (
+      if !snakeHeadPosition! equ !apple[%%A]Position! (
+            set /a "apple[%%A]Position=-1"
+            set /a "score+=1"
+      ) & ::If snake head colided with apple
+)
+
+::Add apples to the board
+if exist history.txt del history.txt
+for /l %%A in (1,1,!appleAmount!) do (
+      if !apple[%%A]Position! equ -1 (
+            set /a "apple[%%A]Position=!random! %% !fieldSizeFull! + 1"
+
+            for /l %%B in (1,1,!savePositionHistory!) do (
+                  if !apple[%%A]Position! equ !snakeHeadPositionOld[%%B]! (
+                        set /a "apple[%%A]Position=-1"
+                  )
+            )
+      )
+
+      call :setBoardPos !apple[%%A]Position! F
+      echo [%time:~0,-3%] Apple %%A placed at !apple[%%A]Position! >> history.txt
+)
+
+::Add snake head to the board
 call :setBoardPos !snakeHeadPosition! C
+
+::Add snake body to the board
 for /l %%A in (1,1,!score!) do (
       set /a "snakeBodySwitch=%%A %% 2"
       if !snakeBodySwitch! equ 0 ( call :setBoardPos !snakeHeadPositionOld[%%A]! D ) else ( call :setBoardPos !snakeHeadPositionOld[%%A]! E )
 )
 
-if !debug! equ 1 (
-      for %%A in ( 1 2 3 4 5 6 7 21 27 41 42 43 44 45 46 47 ) do ( call :setBoardPos %%A Z )
-      call :setBoardPos 22 A
-      call :setBoardPos 23 B
-      call :setBoardPos 24 C
-      call :setBoardPos 25 D
-      call :setBoardPos 26 E
-)
+::Check if snake died
+if !dead! equ 1 goto gameOver
 
 :display
 cls
-echo !snakeHeaderShort1!    !snakeHudDirection1!    Score: %colorYellow%!score!%colorReset%
+echo !snakeHeaderShort1!    !snakeHudDirection1!    Score: %colorYellow%!score!%colorReset% Highscore: %colorYellow%!highscore!%colorReset%
 echo !snakeHeaderShort2!    !snakeHudDirection2!    Speed: %colorYellow%!speed!%colorReset%
 echo !snakeHeaderShort3!    !snakeHudDirection3!    Field size: %colorYellow%!fieldSize!%colorReset%
 echo !snakeHeaderShort4!    !snakeHudDirection4!    Field size full: %colorYellow%!fieldSizeFull!%colorReset%
 echo !snakeHeaderShort5!    !snakeHudDirection5!    Position: %colorYellow%!snakeHeadPosition!%colorReset%
-echo !snakeHeaderShort6!    !snakeHudDirection6!    Dead: %colorYellow%!dead!%colorReset% / Pos in Line: %colorYellow%!snakeHeadPositionLine!%colorReset%
+echo !snakeHeaderShort6!    !snakeHudDirection6!    Position in Line: %colorYellow%!snakeHeadPositionLine!%colorReset%
 
 for /l %%A in (1,1,2) do ( echo. )
 
@@ -252,12 +278,16 @@ echo %colorRed%!translation.game.youDiedHeader4!%colorReset%
 echo %colorRed%!translation.game.youDiedHeader5!%colorReset%
 echo %colorRed%!translation.game.youDiedHeader6!%colorReset%
 for %%. in (1,1,2) do ( echo. )
-
-echo %translation.game.youDied%
-echo %translation.game.youDied2%
-echo %translation.game.youDied3%
+echo %translation.game.dead.player%
+echo %translation.game.dead.score%
+if !score! gtr !highscore! (
+      echo %translation.game.dead.highscoreNew%
+      set "highscore=!score!"
+) else (
+      echo %translation.game.dead.highscore%
+)
 echo.
-echo %translation.game.youDied4%
-choice /c er /n
+echo %translation.game.dead.retry%
+choice /c er /n >nul
 if !errorlevel! equ 1 exit /b
 if !errorlevel! equ 2 goto buildGame

@@ -1,0 +1,84 @@
+::-webkit-scrollbar {
+      width: 12px;
+}
+
+::-webkit-scrollbar-track {
+      background: white;
+}
+
+::-webkit-scrollbar-thumb {
+      background: gray;
+}
+
+::-webkit-scrollbar-thumb:hover {
+      background: rgb(52, 52, 52);
+      border: 50%;
+}
+
+body {
+      background-color: #000;
+      text-align: center;
+      color: #fff;
+      font-family: "Cascadia Mono";
+}
+
+.typewrite {
+      font-size: 50px;
+}
+
+.typewrapper {
+      margin-top: 5em;
+}
+
+* {
+      padding: 0;
+      margin: 0;
+      color: #fff;
+      text-decoration: none;
+}
+
+nav {
+      text-align: left;
+      font-size: 23px;
+      margin-top: 10px;
+      margin-left: 15px;
+}
+
+main {
+      margin-top: 3cm;
+      font-size: 25px;
+}
+
+#button {
+	--padding: 30px;
+      background-color: rgb(24, 24, 25);
+      width: 170px;
+      padding-top: var(--padding);
+      padding-bottom: var(--padding);
+	padding-left: var(--padding);
+	padding-right: var(--padding);
+      border-radius: 10px;
+      display: flex;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+      justify-items: center;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 20px;
+      font-size: 30px;
+}
+
+.credits #creditheader {
+      margin-top: 60px;
+      font-size: 50px;
+}
+
+.credits {
+      display: inline-block;
+      text-align: left;
+}
+
+.credits ul {
+      list-style: none;
+}

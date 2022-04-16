@@ -1,7 +1,8 @@
 @echo off
 setlocal enableextensions
 setlocal enableDelayedExpansion
-set /a "gameVersion=4"
+set /a "gameVersion=5"
+chcp 65001 >nul
 set "gameDirectory=%~dp0"
 set /a "setCodes=1"
 call inject.dll getinput.dll

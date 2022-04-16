@@ -1,5 +1,2 @@
-history[4] > history[5] 
-history[3] > history[4] 
-history[2] > history[3] 
-history[1] > history[2] 
-history[0] > history[1] 
+[23:34:59] Apple 1 placed at 8 
+[23:34:59] Apple 2 placed at 62 

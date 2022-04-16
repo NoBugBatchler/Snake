@@ -34,7 +34,8 @@ set "translation.game.youDiedHeader4=  \   // _ \ | | | |  / _` || | / _ \ / _` 
 set "translation.game.youDiedHeader5=   | || (_) || |_| | | (_| || ||  __/| (_| | |_|"
 set "translation.game.youDiedHeader6=   |_| \___/  \__,_|  \__,_||_| \___| \__,_| (_)"
 
-set "translation.game.youDied=You died, %colorYellow%^!playerName^!%colorReset%!"
-set "translation.game.youDied2=Your score was %colorYellow%^!score^!%colorReset%!"
-set "translation.game.youDied3=Your highest score so far was %colorYellow%^!highScore^!%colorReset%!"
-set "translation.game.youDied4=Press %colorRed%[R]%colorReset% to retry or %colorRed%[E]%colorReset% to exit"
+set "translation.game.dead.player=You died, %colorYellow%^!playerName^!%colorReset%!"
+set "translation.game.dead.score=Your score was %colorYellow%^!score^!%colorReset%!"
+set "translation.game.dead.highscore=Your highest score so far was %colorYellow%^!highscore^!%colorReset%^^^^^!"
+set "translation.game.dead.highscoreNew=Your highest score so far was %colorYellow%^!highscore^!%colorReset%^^^^^! You got a new highscore with %colorYellow%^!score^!%colorReset%^^^^^!"
+set "translation.game.dead.retry=Press %colorRed%[R]%colorReset% to retry or %colorRed%[E]%colorReset% to exit"

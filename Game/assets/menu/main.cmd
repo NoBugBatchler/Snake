@@ -90,10 +90,14 @@ echo Tabcomplete asset>tabcomplete\REAPPLY
 echo Tabcomplete asset>tabcomplete\RELOAD
 
 ::Search for language files and save them in their variable
-for /f "tokens=1*delims=:" %%A in ('2^>nul dir ??.cmd /b^| findstr /berinc:"..\.cmd"') do (
-      set language[#]=%%A
-      set language[%%A]=%%~nB
-      echo Tabcomplete asset>tabcomplete\%%~nB
+for /f "delims=" %%A in ('2^>nul set language[') do (
+      set "%%A="
+)
+set /a "language[#]=0"
+for /f "delims=" %%A in ('2^>nul dir *.cmd /b') do (
+      set /a "language[#]+=1"
+      set "language[!language[#]!]=%%~nA"
+      echo Tabcomplete asset>tabcomplete\%%~nA
 )
 
 ::Output the languages
