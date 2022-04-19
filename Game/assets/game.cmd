@@ -176,6 +176,7 @@ for /l %%A in (1,1,3) do ( echo !translation.main.fullscreen%%A! )
 sleep 2 s
 for /l %%A in (1,1,3) do ( echo. )
 
+:promptUserControls
 
 :promptUserName
 if not defined playerName (

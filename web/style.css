@@ -1,18 +1,34 @@
+/*----------------------------------
+--           Disclaimer           --
+--                                --
+--                                --
+-- This Website including         --
+-- the Pictures, CSS, JavaScript  --
+-- and HTML is fully              --
+-- made by me [DNAScanner].       --
+-- I learned most things about    --
+-- CSS and HTML                   --
+-- from https://w3schools.com.    --
+----------------------------------*/
+
+/*-------------
+-- Basic CSS --
+-------------*/
+
 ::-webkit-scrollbar {
       width: 12px;
 }
 
 ::-webkit-scrollbar-track {
-      background: white;
+      background-color: rgba(127, 127, 127, 1);
 }
 
 ::-webkit-scrollbar-thumb {
-      background: gray;
+      background-color: rgba(56, 56, 56, 1);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-      background: rgb(52, 52, 52);
-      border: 50%;
+      background: rgb(38, 38, 38);
 }
 
 body {
@@ -50,13 +66,13 @@ main {
 }
 
 #button {
-	--padding: 30px;
+      --padding: 30px;
       background-color: rgb(24, 24, 25);
       width: 170px;
       padding-top: var(--padding);
       padding-bottom: var(--padding);
-	padding-left: var(--padding);
-	padding-right: var(--padding);
+      padding-left: var(--padding);
+      padding-right: var(--padding);
       border-radius: 10px;
       display: flex;
       text-align: center;
@@ -70,15 +86,18 @@ main {
 }
 
 .credits #creditheader {
-      margin-top: 60px;
-      font-size: 50px;
-}
-
-.credits {
-      display: inline-block;
-      text-align: left;
+      margin-top: 125px;
+      font-size: 40px;
 }
 
 .credits ul {
+      display: inline-block;
+      text-align: left;
       list-style: none;
+      font-size: 25px;
+      margin-top: 40px;
+}
+
+.credits ul li a {
+      font-weight: 500;
 }
