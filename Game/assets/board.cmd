@@ -1,7 +1,6 @@
 ::Set default values
 :buildGame
-::Set base stats
-set /a "fieldSize=10" & ::Don't put even numbers here else go fuck yourself
+set /a "fieldSize=15" & ::Don't put even numbers here else go fuck yourself
 set /a "appleAmount=2" & ::The amount of apples on the field
 set /a "score=0" & ::Default score
 set /a "speed=100" & ::Default speed
@@ -43,10 +42,10 @@ goto setDirection
 ::Display game HUD and header
 :getInput
 choice /c wsad /n >nul
-if !errorlevel! equ 1 set "direction=up"
-if !errorlevel! equ 2 set "direction=down"
-if !errorlevel! equ 3 set "direction=left"
-if !errorlevel! equ 4 set "direction=right"
+if !errorlevel! equ 1 if not !direction! equ down set "direction=up"
+if !errorlevel! equ 2 if not !direction! equ up set "direction=down"
+if !errorlevel! equ 3 if not !direction! equ right set "direction=left"
+if !errorlevel! equ 4 if not !direction! equ left set "direction=right"
 
 :setDirection
 if !direction! equ up for /l %%A in (1,1,6) do ( set "snakeHudDirection%%A=%colorStrongGreen%!arrowUp%%A!%colorReset%" )

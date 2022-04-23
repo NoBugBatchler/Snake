@@ -2,17 +2,17 @@
 setlocal enableextensions
 setlocal enableDelayedExpansion
 set /a "gameVersion=5"
+set /a "setCodes=1"
 chcp 65001 >nul
 set "gameDirectory=%~dp0"
-set /a "setCodes=1"
 call inject.dll getinput.dll
 
 if exist ..\DEBUG ( set /a "debug=1" ) else ( set /a "debug=0" )
 
 ::Set game codes
-if "!setCodes!" equ "1" (
+(
       ::Colors
-      if "!setCodes!" equ "1" (
+      if !setCodes! equ 1 (
             ::Foreground colors
             set "colorBlack=[30m"
             set "colorRed=[31m"
@@ -78,11 +78,11 @@ if "!setCodes!" equ "1" (
       )
 
       ::Game blocks
-      if "!setCodes!" equ "1" (
+      if !setCodes! equ 1 (
             set "gameBlock=.."
 
-            set "gameSnakeHeadUp=!bgColorBlue!!colorStrongBlack!^^^^!colorReset!"
-            set "gameSnakeHeadDown=!bgColorBlue!!colorStrongBlack!vv!colorReset!"
+            set "gameSnakeHeadUp=!bgColorBlue!!colorStrongBlack!^'^'!colorReset!"
+            set "gameSnakeHeadDown=!bgColorBlue!!colorStrongBlack!..!colorReset!"
             set "gameSnakeHeadLeft=!bgColorBlue!!colorStrongBlack!: !colorReset!"
             set "gameSnakeHeadRight=!bgColorBlue!!colorStrongBlack! :!colorReset!"
 
@@ -95,7 +95,7 @@ if "!setCodes!" equ "1" (
       )
 
       ::Heading/banner for Snake
-      if "!setCodes!" equ "1" (
+      if !setCodes! equ 1 (
             set "snakeHeaderShort1= _____                _         "
             set "snakeHeaderShort2=/  ___|              | |        "
             set "snakeHeaderShort3=\ `--.  _ __    __ _ | | __ ___ "
@@ -121,7 +121,7 @@ if "!setCodes!" equ "1" (
       )
 
       ::Arrows
-      if "!setCodes!" equ "1" (
+      if !setCodes! equ 1 (
             set "arrowUp1=      .      "
             set "arrowUp2=    .:;:.    "
             set "arrowUp3=  .:;;;;;:.  "
@@ -157,13 +157,18 @@ if "!setCodes!" equ "1" (
 if exist config.cmd call config.cmd
 
 ::Define undefined variables
-if not defined userLanguage set "userLanguage=en"
+if not defined userLanguage set "userLanguage=english"
 if not defined highscore set "highscore=0"
 if not defined joins set "joins=1"
 ::if not defined playerName set "playerName=Player"
 
 ::Read language
-if exist lang\!userLanguage!.cmd ( call lang\!userLanguage!.cmd ) else ( echo !userLanguage! is not available )
+:getLang
+if exist lang\!userLanguage!.cmd ( call lang\!userLanguage!.cmd ) else (
+      echo !userLanguage! is not available
+      set "userLanguage=english"
+      goto getLang
+)
 
 ::Count join
 set /a "joins+=1"
@@ -176,8 +181,6 @@ for /l %%A in (1,1,3) do ( echo !translation.main.fullscreen%%A! )
 sleep 2 s
 for /l %%A in (1,1,3) do ( echo. )
 
-:promptUserControls
-
 :promptUserName
 if not defined playerName (
       echo %translation.game.greeting%
@@ -186,9 +189,10 @@ if not defined playerName (
       if defined playerName (
             echo %translation.game.greeting2%
             sleep 2 s
+      ) else (
+            goto promptUserName
       )
 )
-if not defined playerName goto promptUserName
 
 :menu
 call menu\main.cmd

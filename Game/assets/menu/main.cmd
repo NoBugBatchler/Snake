@@ -83,8 +83,8 @@ cls
 ::Add tabcomplete
 :getLanguages
 pushd lang
-del /f /q tabcomplete\*
 if not exist tabcomplete\ ( md tabcomplete )
+del /f /q tabcomplete\*
 echo Tabcomplete asset>tabcomplete\CANCEL
 echo Tabcomplete asset>tabcomplete\REAPPLY
 echo Tabcomplete asset>tabcomplete\RELOAD
@@ -161,7 +161,7 @@ popd
 
 if !languageAvailable!==0 (
       echo %translation.menuLanguage.notFound%
-      ..\sleep 2 s
+      sleep 2 s
       cls
       goto getLanguages
 )

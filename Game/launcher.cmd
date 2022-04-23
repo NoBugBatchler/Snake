@@ -2,4 +2,4 @@
 pushd assets
 start "" "game.cmd"
 popd
-exit
+exit /b
