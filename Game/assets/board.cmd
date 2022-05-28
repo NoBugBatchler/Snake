@@ -102,7 +102,6 @@ for /l %%A in (1,1,!appleAmount!) do (
 )
 
 ::Add apples to the board
-if exist history.txt del history.txt
 for /l %%A in (1,1,!appleAmount!) do (
       if !apple[%%A]Position! equ -1 (
             set /a "apple[%%A]Position=!random! %% !fieldSizeFull! + 1"
@@ -115,7 +114,6 @@ for /l %%A in (1,1,!appleAmount!) do (
       )
 
       call :setBoardPos !apple[%%A]Position! F
-      echo [%time:~0,-3%] Apple %%A placed at !apple[%%A]Position! >> history.txt
 )
 
 ::Add snake head to the board
@@ -141,7 +139,6 @@ echo !snakeHeaderShort6!    !snakeHudDirection6!    Position in Line: %colorYell
 
 for /l %%A in (1,1,2) do ( echo. )
 
-echo [%time:~0,-3%] !board!>>board.txt
 for /l %%A in (1,!fieldSize!,!fieldSizeFull!) do (
       set "displayLine=!board:~%%A,%fieldSize%!"
       

@@ -1,4 +1,4 @@
-set "translation.main.title=Snake by DNA"
+set "translation.main.title=Snake by NoBugBatchler"
 
 set "translation.feature.unplanned=%colorRed%Unplanned feature, sorry! It may be added in the future%colorReset%"
 set "translation.feature.soon=%colorRed%This feature will be added soon, stay tuned!%colorReset%"
@@ -33,6 +33,13 @@ set "translation.game.youDiedHeader3= \ \_/ /___   _   _    __| | _   ___   __| 
 set "translation.game.youDiedHeader4=  \   // _ \ | | | |  / _` || | / _ \ / _` | | |"
 set "translation.game.youDiedHeader5=   | || (_) || |_| | | (_| || ||  __/| (_| | |_|"
 set "translation.game.youDiedHeader6=   |_| \___/  \__,_|  \__,_||_| \___| \__,_| (_)"
+
+set "gameOverHeader1=  _____                            ____                    "
+set "gameOverHeader2= / ____|                          / __ \                   "
+set "gameOverHeader3=| |  __   __ _  _ __ ___    ___  | |  | |__   __ ___  _ __ "
+set "gameOverHeader4=| | |_ | / _` || '_ ` _ \  / _ \ | |  | |\ \ / // _ \| '__|"
+set "gameOverHeader5=| |__| || (_| || | | | | ||  __/ | |__| | \ V /|  __/| |   "
+set "gameOverHeader6= \_____| \__,_||_| |_| |_| \___|  \____/   \_/  \___||_|   "
 
 set "translation.game.dead.player=You died, %colorYellow%^!playerName^!%colorReset%!"
 set "translation.game.dead.score=Your score was %colorYellow%^!score^!%colorReset%!"

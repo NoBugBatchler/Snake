@@ -96,28 +96,21 @@ if exist ..\DEBUG ( set /a "debug=1" ) else ( set /a "debug=0" )
 
       ::Heading/banner for Snake
       if !setCodes! equ 1 (
-            set "snakeHeaderShort1= _____                _         "
-            set "snakeHeaderShort2=/  ___|              | |        "
-            set "snakeHeaderShort3=\ `--.  _ __    __ _ | | __ ___ "
-            set "snakeHeaderShort4= `--. \| '_ \  / _` || |/ // _ \"
-            set "snakeHeaderShort5=/\__/ /| | | || (_| ||   <|  __/"
-            set "snakeHeaderShort6=\____/ |_| |_| \__,_||_|\_\\___|"
+            set "snakeHeaderShort1=  _____                _         "
+            set "snakeHeaderShort2= / ____|              | |        "
+            set "snakeHeaderShort3=| (___   _ __    __ _ | | __ ___ "
+            set "snakeHeaderShort4= \___ \ | '_ \  / _` || |/ // _ \"
+            set "snakeHeaderShort5= ____) || | | || (_| ||   <|  __/"
+            set "snakeHeaderShort6=|_____/ |_| |_| \__,_||_|\_\\___|"
 
-            set "snakeHeader1= _____                _             _               ______  _   _   ___  "
-            set "snakeHeader2=/  ___|              | |           | |              |  _  \| \ | | / _ \ "
-            set "snakeHeader3=\ `--.  _ __    __ _ | | __ ___    | |__   _   _    | | | ||  \| |/ /_\ \"
-            set "snakeHeader4= `--. \| '_ \  / _` || |/ // _ \   | '_ \ | | | |   | | | || . ` ||  _  |"
-            set "snakeHeader5=/\__/ /| | | || (_| ||   <|  __/   | |_) || |_| |   | |/ / | |\  || | | |"
-            set "snakeHeader6=\____/ |_| |_| \__,_||_|\_\\___|   |_.__/  \__, |   |___/  \_| \_/\_| |_/"
-            set "snakeHeader7=                                            __/ |                        "
-            set "snakeHeader8=                                           |___/                         "
-
-            set "gameOverHeader1=  _____                            ____                    "
-            set "gameOverHeader2= / ____|                          / __ \                   "
-            set "gameOverHeader3=| |  __   __ _  _ __ ___    ___  | |  | |__   __ ___  _ __ "
-            set "gameOverHeader4=| | |_ | / _` || '_ ` _ \  / _ \ | |  | |\ \ / // _ \| '__|"
-            set "gameOverHeader5=| |__| || (_| || | | | | ||  __/ | |__| | \ V /|  __/| |   "
-            set "gameOverHeader6= \_____| \__,_||_| |_| |_| \___|  \____/   \_/  \___||_|   "
+            set "snakeHeader1=  _____                _           _              _   _  ____   ____  "
+            set "snakeHeader2= / ____|              | |         | |            | \ | ||  _ \ |  _ \ "
+            set "snakeHeader3=| (___   _ __    __ _ | | __ ___  | |__   _   _  |  \| || |_) || |_) |"
+            set "snakeHeader4= \___ \ | '_ \  / _` || |/ // _ \ | '_ \ | | | | | . ` ||  _ < |  _ < "
+            set "snakeHeader5= ____) || | | || (_| ||   <|  __/ | |_) || |_| | | |\  || |_) || |_) |"
+            set "snakeHeader6=|_____/ |_| |_| \__,_||_|\_\\___| |_.__/  \__, | |_| \_||____/ |____/ "
+            set "snakeHeader7=                                           __/ |                      "
+            set "snakeHeader8=                                          |___/                       "
       )
 
       ::Arrows
